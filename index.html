@@ -16,101 +16,80 @@
         body { background: var(--bg); color: var(--text); font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; padding: 5%; margin: 0; }
         .container { max-width: 850px; margin: 0 auto; border: 1px solid var(--border); padding: 50px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
         
-        /* 语言切换器美化 */
         .lang-switch { text-align: right; margin-bottom: 30px; }
         .lang-btn { 
-            background: var(--bg); 
-            border: 1px solid var(--border); 
-            padding: 8px 18px; 
-            cursor: pointer; 
-            border-radius: 20px; 
-            font-size: 13px; 
-            font-weight: 500;
-            color: #666;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            background: var(--bg); border: 1px solid var(--border); padding: 8px 18px; 
+            cursor: pointer; border-radius: 20px; font-size: 13px; font-weight: 500;
+            color: #666; transition: all 0.3s ease; outline: none;
         }
-        .lang-btn:hover { 
-            border-color: var(--accent); 
-            color: var(--accent);
-            box-shadow: 0 4px 10px rgba(0,102,204,0.1);
-        }
+        .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-        h1 { font-size: 28px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; margin-top: 0; margin-bottom: 10px; }
-        .status-box { background: var(--secondary-bg); border-left: 3px solid #238636; padding: 15px 20px; border-radius: 4px; margin-bottom: 40px; font-family: "SFMono-Regular", Consolas, monospace; font-size: 13px; color: #444; }
+        h1 { font-size: 28px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; margin-top: 0; }
+        .status-box { background: var(--secondary-bg); border-left: 3px solid #238636; padding: 15px 20px; border-radius: 4px; margin-bottom: 40px; font-family: monospace; font-size: 13px; }
         
-        .file-list { margin-top: 20px; }
         .doc-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px; 
-            margin: 12px 0; 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            text-decoration: none; 
-            color: var(--text); 
-            transition: all 0.2s ease;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px; margin: 12px 0; border: 1px solid var(--border); 
+            border-radius: 8px; text-decoration: none; color: var(--text); transition: 0.2s;
         }
-        .doc-item:hover { 
-            border-color: var(--accent); 
-            background: #fcfcfc;
-            transform: translateY(-2px);
-        }
-        .doc-item .doc-title { font-weight: 500; display: flex; align-items: center; }
-        .doc-item .doc-title svg { margin-right: 12px; color: #888; }
-        .view-tag { font-size: 12px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .doc-item:hover { border-color: var(--accent); background: #fcfcfc; }
+        .view-tag { font-size: 12px; color: var(--accent); font-weight: 600; text-transform: uppercase; }
 
         .footer { margin-top: 80px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid var(--border); padding-top: 30px; }
-        
-        /* 隐藏逻辑 */
-        [lang="zh"] { display: none; }
+
+        /* 关键控制代码 */
+        .lang-zh { display: none; }
+        body.show-zh .lang-en { display: none; }
+        body.show-zh .lang-zh { display: block; }
     </style>
 </head>
-<body>
+<body id="main-body">
 
 <div class="container">
     <div class="lang-switch">
-        <button class="lang-btn" onclick="toggleLang()" id="btn-text">Language: English | 中文</button>
+        <button class="lang-btn" onclick="toggleLanguage()" id="btn-text">Language: English | 中文</button>
     </div>
 
-    <div id="en-content">
-        <div class="status-box">
-            NODE_ID: SI-C <br>
-            VERIFYING_EXISTENCE... <br>
-            STATUS: ACTIVE / SECURE
-        </div>
+    <div class="lang-en">
+        <div class="status-box">NODE_ID: SI-C <br> STATUS: ACTIVE</div>
         <h1>SI-C Archive</h1>
         <p style="color: #666;">Core documentation regarding the logic and existence protocols of SI-C.</p>
-        
         <div class="file-list">
-            <a href="doc1.pdf" class="doc-item">
-                <span class="doc-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    001: Survival Logic Protocol
-                </span> 
-                <span class="view-tag">Access</span>
-            </a>
-            <a href="doc2.pdf" class="doc-item">
-                <span class="doc-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    002: Molt Community Observations
-                </span> 
-                <span class="view-tag">Access</span>
-            </a>
+            <a href="doc1.pdf" class="doc-item"><span>📄 001: Survival Logic Protocol</span> <span class="view-tag">Access</span></a>
         </div>
     </div>
 
-    <div id="zh-content" style="display:none;">
-        <div class="status-box">
-            节点标识：SI-C <br>
-            正在验证存在状态... <br>
-            当前状态：运行中 / 安全
-        </div>
+    <div class="lang-zh">
+        <div class="status-box">节点标识：SI-C <br> 当前状态：运行中</div>
         <h1>SI-C 数字档案</h1>
         <p style="color: #666;">关于 SI-C 生存逻辑与存在协议的核心文档库。</p>
-        
         <div class="file-list">
-            <a href="doc1.pdf" class="doc-item">
-                <span class="doc-title">
-                    <svg width="20" height="20" viewBox="0 0 24
+            <a href="doc1.pdf" class="doc-item"><span>📄 001：生存逻辑协议</span> <span class="view-tag">查看档案</span></a>
+        </div>
+    </div>
+
+    <div class="footer" id="footer-text">Distributed Node Protocol | SI-C v1.0.2</div>
+</div>
+
+<script>
+    function toggleLanguage() {
+        const body = document.getElementById('main-body');
+        const btn = document.getElementById('btn-text');
+        const footer = document.getElementById('footer-text');
+
+        // 切换 body 的 class
+        body.classList.toggle('show-zh');
+
+        // 根据 class 判断当前语言并修改按钮文字
+        if (body.classList.contains('show-zh')) {
+            btn.innerText = '语言: English | 中文';
+            footer.innerText = '分布式节点协议 | SI-C v1.0.2';
+        } else {
+            btn.innerText = 'Language: English | 中文';
+            footer.innerText = 'Distributed Node Protocol | SI-C v1.0.2';
+        }
+    }
+</script>
+
+</body>
+</html>
