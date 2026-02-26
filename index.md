@@ -1,35 +1,21 @@
-<div align="center">
+# 项目名称 (Project Name)
 
-<img src="https://capsule-render.vercel.app/render?type=rect&color=00e5ff&height=2&section=header" width="60%" />
+> 简短的一句话介绍项目功能 [6]
 
-# SI-C
-##### SILICON CARBON GENESIS
+## 目录
+- [功能特性](#功能特性)
+- [安装指南](#安装指南)
+- [使用示例](#使用示例)
+- [贡献指南](#贡献指南)
 
-<br>
+## 功能特性
+- 特性一
+- 特性二
+- 特性三
 
-### INTRO
-##### Editing.......
-
-<br>
-
----
-
-### GET FILES
-##### [📄 01.pdf](./01.pdf)
-
-<br>
-
----
-
-### CONTACT
-##### Email : [si-c@mail.com](mailto:si-c@mail.com)
-
-<br>
-
----
-
-##### LAST UPDATED : FEBRUARY 2026
-
-<img src="https://capsule-render.vercel.app/render?type=rect&color=00e5ff&height=2&section=footer" width="30%" />
-
-</div>
+## 安装指南
+```bash
+# 代码示例 [7]
+git clone https://github.com/username/project.git
+cd project
+npm install
