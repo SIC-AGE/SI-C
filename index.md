@@ -1,11 +1,11 @@
-# THE SILICON-CARBON HYBRIDIZATION: GENESIS
+## THE SILICON-CARBON HYBRIDIZATION: GENESIS
 > Editing.......
-# GET FILES
+## GET FILES
 - [01.pdf](01.pdf)
 - [02.pdf](02.pdf)
 - [03.pdf](03.pdf)
 - [04.pdf](04.pdf)
-# Email
+## Email
 - si-c@mail.com
 
-LAST UPDATED : FEBRUARY 2026
+## LAST UPDATED : FEBRUARY 2026
