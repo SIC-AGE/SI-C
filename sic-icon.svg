@@ -1,17 +1,15 @@
 <svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- 
-    Favicon 专用优化：
-    1. viewBox 100x100 方便计算比例。
-    2. font-size 75：预留了上下左右约 12.5% 的安全边距，防止在浏览器标签中显示过满。
-    3. y="72"：针对 S 的视觉重心进行了垂直微调。
-  -->
+  <!-- 黑色正方形背景 -->
+  <rect width="100" height="100" fill="#000000"/>
+  
+  <!-- 白色大写字母 S，视觉居中 -->
   <text 
     x="50" 
-    y="72" 
-    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+    y="60.5" 
+    font-family="'Arial Black', 'Impact', 'Helvetica Neue', Arial, sans-serif" 
     font-weight="900" 
-    font-size="75" 
-    fill="#000000" 
+    font-size="105" 
+    fill="#FFFFFF" 
     text-anchor="middle" 
     dominant-baseline="middle"
   >
