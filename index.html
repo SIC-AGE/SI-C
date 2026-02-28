@@ -188,26 +188,26 @@
                 padding-top: 0;            
             }
             
-            /* 1. 太阳组件优化 (亮度提升至 2.0，边缘锐化) */
+            /* 1. 太阳组件 (增加柔化，降低光圈亮度) */
             .holographic-sun { 
                 width: 330px; height: 330px; 
                 top: -80px; left: -80px; 
-                /* 降低 blur 使边缘更清晰，增加亮度至 2.0 */
-                filter: blur(15px) brightness(2.0); 
+                /* 提升 blur 值从 15px 到 35px，实现显著边缘柔化 */
+                filter: blur(35px) brightness(2.0); 
                 animation: sun-move-mobile 20s linear infinite alternate; 
             }
             .sun-core { 
                 width: 60px; height: 60px; 
                 background: #ffffff;
-                /* 增强发光饱和度 */
-                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 45px 15px rgba(255,255,255,0.9); 
+                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 45px 15px rgba(255,255,255,0.7); 
             }
             .sun-halo { 
                 width: 300px; height: 300px; 
-                /* 移除杂色，强化白色边缘对比度 */
-                box-shadow: 0 0 15px 8px rgba(255, 255, 255, 1), 0 0 30px 15px rgba(255, 255, 255, 0.5); 
-                background: radial-gradient(circle, transparent 62%, rgba(255, 255, 255, 0.35) 70%, transparent 80%);
-                filter: blur(0.8px);
+                /* 降低阴影不透明度，使光圈边缘变暗 */
+                box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.6), 0 0 20px 10px rgba(255, 255, 255, 0.2); 
+                /* 降低渐变中心白色的不透明度 (0.35 -> 0.2) */
+                background: radial-gradient(circle, transparent 62%, rgba(255, 255, 255, 0.2) 70%, transparent 80%);
+                filter: blur(1.5px);
             }
             
             @keyframes sun-move-mobile { 
