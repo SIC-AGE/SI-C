@@ -183,24 +183,26 @@
         @media (max-width: 950px) {
             body { zoom: 1; -moz-transform: none; }
             
-            /* 1. 太阳组件与光圈调整 (0.3倍大小，亮度增强，速度翻倍) */
+            /* 1. 太阳组件与光圈调整 (纯白色、0.3倍大小、亮度1.8、速度翻倍) */
             .holographic-sun { 
-                width: 330px; height: 330px; /* 1100px * 0.3 = 330px */
+                width: 330px; height: 330px; /* 1100px * 0.3 */
                 top: -80px; left: -80px; 
-                filter: blur(25px) brightness(2.2); /* 显著提升亮度 */
-                animation: sun-move-mobile 45s linear infinite alternate; /* 时长减半 = 速度翻倍 */
+                filter: blur(25px) brightness(1.8); /* 调整为 1.8 亮度 */
+                animation: sun-move-mobile 45s linear infinite alternate; /* 速度翻倍 */
             }
             .sun-core { 
-                width: 60px; height: 60px; /* 200px * 0.3 = 60px */
-                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 50px 20px rgba(255,255,255,0.7); 
+                width: 60px; height: 60px; /* 200px * 0.3 */
+                background: #ffffff;
+                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 45px 15px rgba(255,255,255,0.8); 
             }
             .sun-halo { 
-                width: 300px; height: 300px; /* 1000px * 0.3 = 300px */
-                box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.9), 0 0 25px 12px rgba(255, 200, 100, 0.8); 
-                filter: blur(1.5px);
+                width: 300px; height: 300px; /* 1000px * 0.3 */
+                /* 彻底去除黄色，改为纯白发光 */
+                box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.9), 0 0 20px 10px rgba(255, 255, 255, 0.4); 
+                background: radial-gradient(circle, transparent 66%, rgba(255, 255, 255, 0.25) 70%, transparent 80%);
+                filter: blur(1px);
             }
             
-            /* 移动端专属轨迹 - 保持位移路径，配合 45s 时长 */
             @keyframes sun-move-mobile { 
                 0% { transform: translate(10vw, 10vh); } 
                 100% { transform: translate(50vw, 15vh); } 
