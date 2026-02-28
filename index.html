@@ -17,7 +17,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background: #000; 
+            background: #666; 
             color: var(--accent); 
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
@@ -69,7 +69,7 @@
         #particle-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -4;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); 
+            background: #000
         }
 
         #circuit-canvas {
@@ -169,8 +169,10 @@
 
         .file-link { display: flex; align-items: center; text-decoration: none; color: #fff; padding: 10px; border: 1px solid var(--border-dim); margin-bottom: 10px; font-size: 0.8rem; transition: 0.3s; }
         .file-link:hover { background: #fff; color: #000; }
-        .action-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid #fff; color: #fff; font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 2px; margin-top: 20px; cursor: pointer; }
-        .action-btn:hover { background: #fff; color: #000; }
+        
+        /* 修改部分：将边框颜色与 .file-link 保持一致 */
+        .action-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--border-dim); color: #fff; font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 2px; margin-top: 20px; cursor: pointer; transition: 0.3s; }
+        .action-btn:hover { background: #fff; color: #000; border-color: #fff; }
 
         #boot-screen {
             position: fixed; inset: 0; background: #000; z-index: 9999;
@@ -278,7 +280,7 @@
         <div class="grid">
             <article class="card"><span class="card-label">INFO</span><div class="card-content">[ SYSTEM_LOAD ]<br>> NEURAL_CORE: ACTIVE<br>> AMBIENT_SYNC: OPTIMAL<br>> VERSION: 2026.FEB.28</div></article>
             <article class="card"><span class="card-label">DATA</span><div class="card-content"><a href="01.pdf" target="_blank" class="file-link"><span>[01]</span> BLUEPRINT.PDF</a><a href="02.pdf" target="_blank" class="file-link"><span>[02]</span> SCHEMATIC.PDF</a><a href="03.pdf" target="_blank" class="file-link"><span>[03]</span> PROTOCOL.PDF</a></div></article>
-            <article class="card"><span class="card-label">LINK</span><div class="card-content"><code style="display: block; background: transparent; padding: 10px; border: 1px solid #777; text-align: center; margin-bottom:10px;">SI-C@MAIL.COM</code><button class="action-btn" id="copy-btn" onclick="copyToClipboard('si-c@mail.com')">COPY</button></div></article>
+            <article class="card"><span class="card-label">LINK</span><div class="card-content"><code style="display: block; background: transparent; padding: 10px; border: 1px solid var(--border-dim); text-align: center; margin-bottom:10px;">SI-C@MAIL.COM</code><button class="action-btn" id="copy-btn" onclick="copyToClipboard('si-c@mail.com')">COPY</button></div></article>
         </div>
     </main>
 
@@ -319,11 +321,11 @@
                 if (newX < 0 || newX > cCanvas.width || newY < 0 || newY > cCanvas.height) this.init();
             }
             draw() {
-                cCtx.strokeStyle = 'rgba(255, 255, 255, 0.03)'; cCtx.lineWidth = 1; cCtx.beginPath(); cCtx.moveTo(this.points[0].x, this.points[0].y);
+                cCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)'; cCtx.lineWidth = 1; cCtx.beginPath(); cCtx.moveTo(this.points[0].x, this.points[0].y);
                 for (let i = 1; i < this.points.length; i++) cCtx.lineTo(this.points[i].x, this.points[i].y);
                 cCtx.stroke(); this.dataPoints.forEach((dp, index) => { dp.progress += dp.speed; if (dp.progress >= 1) { this.dataPoints.splice(index, 1); return; }
                     let totalSegs = this.points.length - 1; let currSeg = Math.floor(dp.progress * totalSegs); let segProg = (dp.progress * totalSegs) % 1; let p1 = this.points[currSeg], p2 = this.points[currSeg + 1];
-                    if(p1 && p2) { let dx = p1.x + (p2.x - p1.x) * segProg, dy = p1.y + (p2.y - p1.y) * segProg; cCtx.fillStyle = 'rgba(255, 255, 255, 0.4)'; cCtx.shadowBlur = 4; cCtx.shadowColor = '#fff'; cCtx.fillRect(dx - 0.7, dy - 0.7, 1.4, 1.4); cCtx.shadowBlur = 0; }
+                    if(p1 && p2) { let dx = p1.x + (p2.x - p1.x) * segProg, dy = p1.y + (p2.y - p1.y) * segProg; cCtx.fillStyle = 'rgba(255, 255, 255, 1)'; cCtx.shadowBlur = 10; cCtx.shadowColor = '#fff'; cCtx.fillRect(dx - 0.7, dy - 0.7, 1.4, 1.4); cCtx.shadowBlur = 0; }
                 });
             }
         }
@@ -359,6 +361,3 @@
     </script>
 </body>
 </html>
-
-
-
