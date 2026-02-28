@@ -25,7 +25,7 @@
             -moz-transform-origin: top center;
         }
 
-        /* 导航栏背景条 + 扫光动画 */
+        /* 导航栏背景条 */
         nav.top-bar {
             position: fixed;
             top: 0;
@@ -37,33 +37,32 @@
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-dim);
             z-index: 90;
-            pointer-events: none;
-            overflow: hidden; /* 必须溢出隐藏，确保光影不出界 */
+            overflow: hidden; 
         }
 
-        /* 扫光伪元素 */
+        /* 扫光伪元素 - 45 度 */
         nav.top-bar::after {
             content: "";
             position: absolute;
-            top: 0;
-            left: -150%; /* 初始位置在屏幕左侧外部 */
-            width: 100%;
-            height: 100%;
+            top: -150%; 
+            left: -150%; 
+            width: 300%;
+            height: 400%;
             background: linear-gradient(
-                90deg, 
+                45deg, 
                 transparent 0%, 
-                rgba(255, 255, 255, 0) 30%, 
+                rgba(255, 255, 255, 0) 40%, 
                 rgba(255, 255, 255, 0.15) 50%, 
-                rgba(255, 255, 255, 0) 70%, 
+                rgba(255, 255, 255, 0) 60%, 
                 transparent 100%
             );
-            animation: sweep 3s infinite linear;
+            animation: sweep 3.5s infinite linear;
         }
 
         @keyframes sweep {
-            0% { left: -150%; }
-            90% { left: 150%; } /* 快速划过 */
-            100% { left: 150%; } /* 停留一段时间再重复 */
+            0% { transform: translate(-10%, 20%); }
+            80% { transform: translate(30%, -20%); }
+            100% { transform: translate(30%, -20%); }
         }
 
         #particle-canvas {
@@ -79,6 +78,7 @@
             pointer-events: none;
         }
 
+        /* 太阳容器 */
         .holographic-sun {
             position: fixed; top: -300px; left: -300px; width: 1100px; height: 1100px;
             background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 40%, transparent 75%);
@@ -105,10 +105,7 @@
             animation: flare-pulse 8s ease-in-out infinite;
         }
 
-        @keyframes flare-pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
+        @keyframes flare-pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         .sun-core {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -125,41 +122,23 @@
         }
         @keyframes sun-move { 0% { transform: translate(10vw, 5vh); } 100% { transform: translate(65vw, 15vh); } }
 
-        /* UI 对齐修正 */
+        /* UI 对齐 */
         .floating-ui-left {
-            position: fixed; 
-            top: 24px; 
-            left: 5vw; 
-            z-index: 100;
-            display: flex; 
-            align-items: center; 
-            gap: 15px;
-            height: 42px; 
-            font-family: 'Orbitron'; font-weight: 900; letter-spacing: 3px;
+            position: fixed; top: 24px; left: 5vw; z-index: 100;
+            display: flex; align-items: center; gap: 15px;
+            height: 42px; font-family: 'Orbitron'; font-weight: 900; letter-spacing: 3px;
+            white-space: nowrap;
         }
-        .floating-ui-right { 
-            position: fixed; 
-            top: 24px; 
-            right: 5vw; 
-            z-index: 100; 
-            height: 42px;
-            display: flex;
-            align-items: center;
-        }
-        
+        .floating-ui-right { position: fixed; top: 24px; right: 5vw; z-index: 100; height: 42px; display: flex; align-items: center; }
         .status-tag { font-size: 0.6rem; color: #fff; border: 1px solid #fff; padding: 2px 8px; background: rgba(255,255,255,0.1); }
-        
         .music-toggle {
-            height: 42px; 
-            border: 1px solid rgba(255,255,255,0.4); padding: 0 20px; 
+            height: 42px; border: 1px solid rgba(255,255,255,0.4); padding: 0 20px; 
             font-family: 'Orbitron'; font-size: 0.7rem; background: transparent; 
-            color: #fff; transition: 0.3s; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            color: #fff; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: center; white-space: nowrap;
         }
         .music-toggle:hover { background: #fff; color: #000; border-color: #fff; }
 
         .main-frame { max-width: 1500px; margin: 0 auto; padding: 260px 5vw 80px 5vw; position: relative; z-index: 10; }
-        
         .hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 100px; gap: 60px; }
         .hero-title { flex-shrink: 0; margin-left: 20px; }
         .hero-title h1 { font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 10rem); line-height: 0.85; color: #fff; text-shadow: 0 0 50px rgba(255,255,255,0.25); }
@@ -170,30 +149,20 @@
             border: 1px solid var(--border-dim); border-radius: 2px; overflow: hidden; display: flex; flex-direction: column; transition: 0.5s;
         }
         .monitor-wrapper:hover { border-color: var(--border-active); background: rgba(255,255,255,0.03); }
-        
         .monitor-header {
-            padding: 12px 15px; 
-            background: transparent; 
-            font-size: 0.65rem; letter-spacing: 2px;
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 1px solid var(--border-dim);
+            padding: 12px 15px; background: transparent; font-size: 0.65rem; letter-spacing: 2px;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-dim);
             position: relative; z-index: 5;
         }
-        
         .terminal-content { 
-            padding: 0px 20px 15px 20px; 
-            flex: 1; font-size: 0.85rem; line-height: 1.6; color: #fff; 
-            display: flex; flex-direction: column; justify-content: flex-end; 
-            overflow: hidden; transform: translate(0px, 6px);
-            text-align: left !important;
+            padding: 0px 20px 15px 20px; flex: 1; font-size: 0.85rem; line-height: 1.6; color: #fff; 
+            display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; transform: translate(0px, 6px); text-align: left !important;
         }
         .code-line { white-space: nowrap; overflow: hidden; margin-bottom: 2px; flex-shrink: 0; text-align: left; }
 
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        
         .card { border: 1px solid var(--border-dim); padding: 40px 30px; background: transparent; position: relative; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         .card:hover { border-color: var(--border-active); transform: translateY(-5px); background: rgba(255,255,255,0.03); }
-        
         .card-label { font-family: 'Orbitron'; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 30px; display: block; border-left: 3px solid #fff; padding-left: 15px; }
         .card-content { font-size: 0.9rem; color: #fff; line-height: 1.8; }
 
@@ -210,11 +179,48 @@
         @keyframes logo-entry { 0% { opacity: 0; transform: scale(0.5); letter-spacing: 80px; } 100% { opacity: 1; transform: scale(1); letter-spacing: 20px; } }
         .vignette { position: fixed; inset: 0; pointer-events: none; z-index: 5; background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.5) 150%); }
 
+        /* 移动端适配修正 */
         @media (max-width: 950px) {
             body { zoom: 1; -moz-transform: none; }
-            .hero { flex-direction: column; text-align: center; }
-            .grid { grid-template-columns: 1fr; }
-            .main-frame { padding-top: 200px; }
+            
+            /* 1. 太阳组件与光圈调整 (0.3倍大小，亮度增强，速度翻倍) */
+            .holographic-sun { 
+                width: 330px; height: 330px; /* 1100px * 0.3 = 330px */
+                top: -80px; left: -80px; 
+                filter: blur(25px) brightness(2.2); /* 显著提升亮度 */
+                animation: sun-move-mobile 45s linear infinite alternate; /* 时长减半 = 速度翻倍 */
+            }
+            .sun-core { 
+                width: 60px; height: 60px; /* 200px * 0.3 = 60px */
+                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 50px 20px rgba(255,255,255,0.7); 
+            }
+            .sun-halo { 
+                width: 300px; height: 300px; /* 1000px * 0.3 = 300px */
+                box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.9), 0 0 25px 12px rgba(255, 200, 100, 0.8); 
+                filter: blur(1.5px);
+            }
+            
+            /* 移动端专属轨迹 - 保持位移路径，配合 45s 时长 */
+            @keyframes sun-move-mobile { 
+                0% { transform: translate(10vw, 10vh); } 
+                100% { transform: translate(50vw, 15vh); } 
+            }
+
+            /* 2. 导航栏进一步缩小 */
+            nav.top-bar { height: 50px; }
+            .floating-ui-left { top: 7px; left: 12px; gap: 6px; height: 36px; }
+            .floating-ui-left svg { width: 12px; height: 12px; }
+            .floating-ui-left span:nth-child(2) { font-size: 0.65rem; letter-spacing: 1px; }
+            .floating-ui-right { top: 7px; right: 12px; height: 36px; }
+            
+            .status-tag { font-size: 0.45rem; padding: 1px 3px; border-width: 0.5px; }
+            .music-toggle { padding: 0 10px; font-size: 0.5rem; height: 28px; border-width: 0.5px; }
+
+            .main-frame { padding-top: 140px; }
+            .hero { flex-direction: column; text-align: center; margin-bottom: 60px; }
+            .hero-title h1 { font-size: 4.5rem; }
+            .glitch-sub { font-size: 0.7rem; letter-spacing: 6px; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
         }
     </style>
 </head>
@@ -231,7 +237,7 @@
     <div class="vignette"></div>
 
     <div class="floating-ui-left">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         <span>GENESIS</span>
         <span class="status-tag">REV.02/2026</span>
     </div>
@@ -248,10 +254,7 @@
             </div>
             <div class="monitor-wrapper">
                 <div class="monitor-header">
-                    <span style="display:flex; align-items:center; gap:8px;">
-                        <span style="width:6px; height:6px; background:#fff; border-radius:50%; box-shadow: 0 0 15px #fff;"></span>
-                        LIVE_SYSTEM_LOG
-                    </span>
+                    <span style="display:flex; align-items:center; gap:8px;"><span style="width:6px; height:6px; background:#fff; border-radius:50%; box-shadow: 0 0 15px #fff;"></span>LIVE_SYSTEM_LOG</span>
                     <span id="timestamp">00:00:00</span>
                 </div>
                 <div class="terminal-content" id="terminal"></div>
@@ -259,30 +262,9 @@
         </section>
 
         <div class="grid">
-            <article class="card">
-                <span class="card-label">INFO</span>
-                <div class="card-content">
-                    [ SYSTEM_LOAD ]<br>
-                    > NEURAL_CORE: ACTIVE<br>
-                    > AMBIENT_SYNC: OPTIMAL<br>
-                    > VERSION: 2026.FEB.28
-                </div>
-            </article>
-            <article class="card">
-                <span class="card-label">DATA</span>
-                <div class="card-content">
-                    <a href="01.pdf" target="_blank" class="file-link"><span>[01]</span> BLUEPRINT.PDF</a>
-                    <a href="02.pdf" target="_blank" class="file-link"><span>[02]</span> SCHEMATIC.PDF</a>
-                    <a href="03.pdf" target="_blank" class="file-link"><span>[03]</span> PROTOCOL.PDF</a>
-                </div>
-            </article>
-            <article class="card">
-                <span class="card-label">LINK</span>
-                <div class="card-content">
-                    <code style="display: block; background: transparent; padding: 10px; border: 1px solid #777; text-align: center; margin-bottom:10px;">SI-C@MAIL.COM</code>
-                    <button class="action-btn" id="copy-btn" onclick="copyToClipboard('si-c@mail.com')">COPY</button>
-                </div>
-            </article>
+            <article class="card"><span class="card-label">INFO</span><div class="card-content">[ SYSTEM_LOAD ]<br>> NEURAL_CORE: ACTIVE<br>> AMBIENT_SYNC: OPTIMAL<br>> VERSION: 2026.FEB.28</div></article>
+            <article class="card"><span class="card-label">DATA</span><div class="card-content"><a href="01.pdf" target="_blank" class="file-link"><span>[01]</span> BLUEPRINT.PDF</a><a href="02.pdf" target="_blank" class="file-link"><span>[02]</span> SCHEMATIC.PDF</a><a href="03.pdf" target="_blank" class="file-link"><span>[03]</span> PROTOCOL.PDF</a></div></article>
+            <article class="card"><span class="card-label">LINK</span><div class="card-content"><code style="display: block; background: transparent; padding: 10px; border: 1px solid #777; text-align: center; margin-bottom:10px;">SI-C@MAIL.COM</code><button class="action-btn" id="copy-btn" onclick="copyToClipboard('si-c@mail.com')">COPY</button></div></article>
         </div>
     </main>
 
@@ -290,20 +272,13 @@
         const pCanvas = document.getElementById('particle-canvas');
         const pCtx = pCanvas.getContext('2d');
         let particles = []; let mouse = { x: -100, y: -100 };
-
         function initParticles() {
             pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
-            particles = [];
-            const count = Math.floor((pCanvas.width * pCanvas.height) / 10000);
+            particles = []; const count = Math.floor((pCanvas.width * pCanvas.height) / 10000);
             for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * pCanvas.width, y: Math.random() * pCanvas.height,
-                    vx: (Math.random() - 0.5) * 0.4, vy: Math.random() * 0.4 + 0.1, 
-                    size: Math.random() * 2 + 0.5, opacity: Math.random() * 0.5 + 0.1
-                });
+                particles.push({ x: Math.random() * pCanvas.width, y: Math.random() * pCanvas.height, vx: (Math.random() - 0.5) * 0.4, vy: Math.random() * 0.4 + 0.1, size: Math.random() * 2 + 0.5, opacity: Math.random() * 0.5 + 0.1 });
             }
         }
-
         function drawParticles() {
             pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
             for (let i = 0; i < particles.length; i++) {
@@ -317,137 +292,47 @@
             }
             requestAnimationFrame(drawParticles);
         }
-
         const cCanvas = document.getElementById('circuit-canvas');
         const cCtx = cCanvas.getContext('2d');
-        let lines = [];
-        const maxLines = 40;
-
+        let lines = []; const maxLines = 40;
         class CircuitLine {
             constructor() { this.init(); }
-            init() {
-                this.x = Math.random() * cCanvas.width;
-                this.y = Math.random() * cCanvas.height;
-                this.points = [{x: this.x, y: this.y}];
-                this.maxLength = 6 + Math.random() * 6;
-                this.speed = 1.0 + Math.random() * 1.2;
-                this.angle = (Math.floor(Math.random() * 4) * 90) * (Math.PI / 180);
-                this.dataPoints = [];
-            }
+            init() { this.x = Math.random() * cCanvas.width; this.y = Math.random() * cCanvas.height; this.points = [{x: this.x, y: this.y}]; this.maxLength = 6 + Math.random() * 6; this.speed = 1.0 + Math.random() * 1.2; this.angle = (Math.floor(Math.random() * 4) * 90) * (Math.PI / 180); this.dataPoints = []; }
             update() {
-                let lastPoint = this.points[this.points.length - 1];
-                let newX = lastPoint.x + Math.cos(this.angle) * this.speed;
-                let newY = lastPoint.y + Math.sin(this.angle) * this.speed;
-                if (Math.random() < 0.03 && this.points.length < this.maxLength) {
-                    this.points.push({x: newX, y: newY});
-                    this.angle += (Math.random() > 0.5 ? 90 : -90) * (Math.PI / 180);
-                }
-                lastPoint.x = newX; lastPoint.y = newY;
-                if (Math.random() < 0.02) this.dataPoints.push({ progress: 0, speed: 0.008 + Math.random() * 0.015 });
+                let lastPoint = this.points[this.points.length - 1]; let newX = lastPoint.x + Math.cos(this.angle) * this.speed; let newY = lastPoint.y + Math.sin(this.angle) * this.speed;
+                if (Math.random() < 0.03 && this.points.length < this.maxLength) { this.points.push({x: newX, y: newY}); this.angle += (Math.random() > 0.5 ? 90 : -90) * (Math.PI / 180); }
+                lastPoint.x = newX; lastPoint.y = newY; if (Math.random() < 0.02) this.dataPoints.push({ progress: 0, speed: 0.008 + Math.random() * 0.015 });
                 if (newX < 0 || newX > cCanvas.width || newY < 0 || newY > cCanvas.height) this.init();
             }
             draw() {
-                cCtx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-                cCtx.lineWidth = 1;
-                cCtx.beginPath();
-                cCtx.moveTo(this.points[0].x, this.points[0].y);
+                cCtx.strokeStyle = 'rgba(255, 255, 255, 0.03)'; cCtx.lineWidth = 1; cCtx.beginPath(); cCtx.moveTo(this.points[0].x, this.points[0].y);
                 for (let i = 1; i < this.points.length; i++) cCtx.lineTo(this.points[i].x, this.points[i].y);
-                cCtx.stroke();
-                this.dataPoints.forEach((dp, index) => {
-                    dp.progress += dp.speed;
-                    if (dp.progress >= 1) { this.dataPoints.splice(index, 1); return; }
-                    let totalSegs = this.points.length - 1;
-                    let currSeg = Math.floor(dp.progress * totalSegs);
-                    let segProg = (dp.progress * totalSegs) % 1;
-                    let p1 = this.points[currSeg], p2 = this.points[currSeg + 1];
-                    if(p1 && p2) {
-                        let dx = p1.x + (p2.x - p1.x) * segProg, dy = p1.y + (p2.y - p1.y) * segProg;
-                        cCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-                        cCtx.shadowBlur = 4; cCtx.shadowColor = '#fff';
-                        cCtx.fillRect(dx - 0.7, dy - 0.7, 1.4, 1.4);
-                        cCtx.shadowBlur = 0;
-                    }
+                cCtx.stroke(); this.dataPoints.forEach((dp, index) => { dp.progress += dp.speed; if (dp.progress >= 1) { this.dataPoints.splice(index, 1); return; }
+                    let totalSegs = this.points.length - 1; let currSeg = Math.floor(dp.progress * totalSegs); let segProg = (dp.progress * totalSegs) % 1; let p1 = this.points[currSeg], p2 = this.points[currSeg + 1];
+                    if(p1 && p2) { let dx = p1.x + (p2.x - p1.x) * segProg, dy = p1.y + (p2.y - p1.y) * segProg; cCtx.fillStyle = 'rgba(255, 255, 255, 0.4)'; cCtx.shadowBlur = 4; cCtx.shadowColor = '#fff'; cCtx.fillRect(dx - 0.7, dy - 0.7, 1.4, 1.4); cCtx.shadowBlur = 0; }
                 });
             }
         }
-
-        function initCircuit() {
-            cCanvas.width = window.innerWidth; cCanvas.height = window.innerHeight;
-            lines = []; for(let i=0; i<maxLines; i++) lines.push(new CircuitLine());
-        }
-
-        function drawCircuit() {
-            cCtx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-            cCtx.fillRect(0, 0, cCanvas.width, cCanvas.height);
-            lines.forEach(line => { line.update(); line.draw(); });
-            requestAnimationFrame(drawCircuit);
-        }
-
+        function initCircuit() { cCanvas.width = window.innerWidth; cCanvas.height = window.innerHeight; lines = []; for(let i=0; i<maxLines; i++) lines.push(new CircuitLine()); }
+        function drawCircuit() { cCtx.fillStyle = 'rgba(0, 0, 0, 0.15)'; cCtx.fillRect(0, 0, cCanvas.width, cCanvas.height); lines.forEach(line => { line.update(); line.draw(); }); requestAnimationFrame(drawCircuit); }
         window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-        const terminal = document.getElementById('terminal');
-        const codeSnippets = [
-            "> [BOOT] INITIALIZING_COBALT_V4.2...",
-            "> [CORE] NEURAL_LINK_ESTABLISHED",
-            "> [SYNC] CALIBRATING_STAR_CORE_LUMINANCE",
-            "> [DATA] FETCHING_ARCHIVE_ENCRYPTION_KEYS",
-            "> [INFO] AMBIENT_PARTICLE_SYNC: 100%",
-            "> [LINK] SECURE_RELAY_CONNECTED: PORT_8080",
-            "> [BOOT] ALL_SYSTEMS_OPERATIONAL",
-            "> [AUTH] USER_GENESIS_ACCESS_GRANTED",
-            "> [TASK] RUNNING_BACKGROUND_CLEANUP",
-            "> [CORE] TEMPERATURE_STABLE_AT_32K",
-            "> [WAIT] LISTENING_FOR_INCOMING_SIGNAL..."
-        ];
         
+        const terminal = document.getElementById('terminal');
+        const codeSnippets = ["> [BOOT] INITIALIZING_COBALT_V4.2...", "> [CORE] NEURAL_LINK_ESTABLISHED", "> [SYNC] CALIBRATING_STAR_CORE_LUMINANCE", "> [DATA] FETCHING_ARCHIVE_ENCRYPTION_KEYS", "> [INFO] AMBIENT_PARTICLE_SYNC: 100%", "> [LINK] SECURE_RELAY_CONNECTED: PORT_8080", "> [BOOT] ALL_SYSTEMS_OPERATIONAL", "> [AUTH] USER_GENESIS_ACCESS_GRANTED", "> [TASK] RUNNING_BACKGROUND_CLEANUP", "> [CORE] TEMPERATURE_STABLE_AT_32K", "> [WAIT] LISTENING_FOR_INCOMING_SIGNAL..."];
         let currentLine = null; let charIndex = 0; let snippetIndex = 0;
-
         function typeCode() {
-            if (!currentLine) {
-                currentLine = document.createElement('div'); currentLine.className = 'code-line'; terminal.appendChild(currentLine);
-                if (terminal.childNodes.length > 13) terminal.removeChild(terminal.firstChild);
-            }
-            const fullText = codeSnippets[snippetIndex];
-            currentLine.textContent = fullText.substring(0, charIndex) + (charIndex < fullText.length ? "▊" : "");
+            if (!currentLine) { currentLine = document.createElement('div'); currentLine.className = 'code-line'; terminal.appendChild(currentLine); if (terminal.childNodes.length > 13) terminal.removeChild(terminal.firstChild); }
+            const fullText = codeSnippets[snippetIndex]; currentLine.textContent = fullText.substring(0, charIndex) + (charIndex < fullText.length ? "▊" : "");
             if (charIndex < fullText.length) { charIndex++; setTimeout(typeCode, 15 + Math.random() * 35); }
             else { charIndex = 0; snippetIndex = (snippetIndex + 1) % codeSnippets.length; currentLine = null; setTimeout(typeCode, 600); }
         }
-
-        function updateTimestamp() {
-            const now = new Date();
-            document.getElementById('timestamp').innerText = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0') + ":" + now.getSeconds().toString().padStart(2,'0');
-        }
-
-        function startSystem() {
-            const boot = document.getElementById('boot-screen');
-            initParticles(); drawParticles(); 
-            initCircuit(); drawCircuit();
-            typeCode(); setInterval(updateTimestamp, 1000);
-            setTimeout(() => {
-                if(boot) {
-                    boot.style.opacity = '0';
-                    setTimeout(() => { boot.style.display = 'none'; }, 1000);
-                }
-            }, 2500); 
-        }
-
+        function updateTimestamp() { const now = new Date(); document.getElementById('timestamp').innerText = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0') + ":" + now.getSeconds().toString().padStart(2,'0'); }
+        function startSystem() { const boot = document.getElementById('boot-screen'); initParticles(); drawParticles(); initCircuit(); drawCircuit(); typeCode(); setInterval(updateTimestamp, 1000); setTimeout(() => { if(boot) { boot.style.opacity = '0'; setTimeout(() => { boot.style.display = 'none'; }, 1000); } }, 2500); }
         window.addEventListener('resize', () => { initParticles(); initCircuit(); });
         document.addEventListener('DOMContentLoaded', startSystem);
-
-        function handleMusic() {
-            const audio = document.getElementById('bgm');
-            const btn = document.getElementById('music-btn');
-            if (audio.paused) { audio.play().catch(e => console.log("Blocked")); btn.innerText = "AUDIO: ON"; btn.style.background = "#fff"; btn.style.color = "#000"; }
-            else { audio.pause(); btn.innerText = "AUDIO: OFF"; btn.style.background = "transparent"; btn.style.color = "#fff"; }
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const copyBtn = document.getElementById('copy-btn');
-                const original = copyBtn.innerText; copyBtn.innerText = "COPIED";
-                setTimeout(() => copyBtn.innerText = original, 2000);
-            });
-        }
+        
+        function handleMusic() { const audio = document.getElementById('bgm'); const btn = document.getElementById('music-btn'); if (audio.paused) { audio.play().catch(e => console.log("Blocked")); btn.innerText = "AUDIO: ON"; btn.style.background = "#fff"; btn.style.color = "#000"; } else { audio.pause(); btn.innerText = "AUDIO: OFF"; btn.style.background = "transparent"; btn.style.color = "#fff"; } }
+        function copyToClipboard(text) { navigator.clipboard.writeText(text).then(() => { const copyBtn = document.getElementById('copy-btn'); const original = copyBtn.innerText; copyBtn.innerText = "COPIED"; setTimeout(() => copyBtn.innerText = original, 2000); }); }
     </script>
 </body>
 </html>
