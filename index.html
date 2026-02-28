@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SI-C | NEURAL COBALT PROTOCOL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #ffffff;
+            --bg: #000000;
+            --border-dim: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 20px rgba(255, 255, 255, 0.4);
+            --scan-color: rgba(255, 255, 255, 0.05);
+            --super-glow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4), 0 0 100px rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- 基础与缩放 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--accent); 
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+            /* 仅在桌面端应用缩放，避免移动端布局错乱 */
+            zoom: 0.8; 
+        }
+
+        /* --- 开场加载动画修复 --- */
+        #boot-screen {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease;
+        }
+        .boot-logo { 
+            font-family: 'Orbitron'; 
+            font-size: 16rem; 
+            font-weight: 900; 
+            letter-spacing: 20px; 
+            white-space: nowrap; /* 核心修复：防止字母换行 */
+            animation: logo-entry 1.5s ease-out forwards, logo-breath 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes logo-entry {
+            0% { opacity: 0; transform: scale(0.5); letter-spacing: 80px; }
+            100% { opacity: 1; transform: scale(1); letter-spacing: 20px; }
+        }
+
+        @keyframes logo-breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* --- 背景矩阵特效 --- */
+        .overlay { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+        .vignette { background: radial-gradient(circle, transparent 30%, black 150%); }
+        .scanlines { background: linear-gradient(to bottom, transparent 50%, var(--scan-color) 51%); background-size: 100% 4px; }
+        
+        .bg-container { position: fixed; inset: 0; z-index: -1; filter: grayscale(1) contrast(1.2); opacity: 0.4; }
+        .bg-video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- 导航栏 --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 6vw; border-bottom: 1px solid var(--border-dim);
+            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100;
+        }
+        .logo-group { display: flex; align-items: center; gap: 15px; font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; }
+        .status-tag { font-size: 0.6rem; color: #666; border: 1px solid #333; padding: 2px 8px; }
+
+        .music-toggle {
+            border: 1px solid #fff; padding: 8px 20px; font-family: 'Orbitron'; font-size: 0.7rem;
+            background: transparent; color: #fff; transition: 0.3s; cursor: pointer;
+        }
+        .music-toggle:hover { background: #fff; color: #000; box-shadow: var(--glow); }
+
+        /* --- 主容器 --- */
+        .main-frame { max-width: 1500px; margin: 0 auto; padding: 100px 6vw; position: relative; z-index: 10; }
+
+        /* --- 英雄区 --- */
+        .hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 100px; gap: 50px; }
+        
+        .hero-title h1 { 
+            font-family: 'Orbitron'; 
+            font-size: clamp(5rem, 12vw, 10rem); 
+            line-height: 0.85; 
+            margin-left: -8px;
+            background: #fff;
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            animation: main-logo-breath 4s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes main-logo-breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .glitch-sub { font-family: 'Orbitron'; letter-spacing: 12px; font-size: 1.1rem; margin-top: 25px; color: #888; }
+
+        /* YouTube 融合处理 */
+        .video-wrapper {
+            flex: 1; max-width: 650px; aspect-ratio: 16/9; 
+            background: #000; position: relative;
+            -webkit-mask-image: radial-gradient(circle, black 40%, transparent 95%);
+            mask-image: radial-gradient(circle, black 40%, transparent 95%);
+        }
+        .video-wrapper iframe { width: 100%; height: 100%; border: none; filter: grayscale(0.5); }
+
+        /* 内容矩阵 */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; }
+        .card {
+            border: 1px solid var(--border-dim); padding: 45px 35px; background: rgba(255,255,255,0.01);
+            position: relative; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .card:hover { border-color: #fff; transform: translateY(-10px); background: rgba(255,255,255,0.04); }
+        .card-label { font-family: 'Orbitron'; font-size: 1.4rem; letter-spacing: 6px; margin-bottom: 35px; display: block; border-left: 3px solid #fff; padding-left: 15px; }
+        .card-content { font-size: 0.9rem; color: #bbb; line-height: 1.8; }
+
+        .file-link {
+            display: flex; align-items: center; text-decoration: none; color: #fff;
+            padding: 12px; border: 1px solid var(--border-dim); margin-bottom: 12px;
+            font-size: 0.8rem; transition: 0.3s;
+        }
+        .file-link:hover { background: #fff; color: #000; }
+
+        .action-btn {
+            width: 100%; padding: 18px; background: transparent; border: 1px solid #fff;
+            color: #fff; font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 3px;
+            margin-top: 30px; cursor: pointer;
+        }
+        .action-btn:hover { background: #fff; color: #000; }
+
+        /* --- 手机端专项适配修复 --- */
+        @media (max-width: 768px) {
+            body { zoom: 1; } /* 禁用手机端 zoom 缩放 */
+            
+            .boot-logo { 
+                font-size: 5rem; /* 核心修复：缩小手机开场字体 */
+                letter-spacing: 10px; 
+            }
+            
+            .hero { flex-direction: column; text-align: center; }
+            .hero-title h1 { font-size: 4.5rem !important; margin-left: 0; }
+            .glitch-sub { font-size: 0.8rem; letter-spacing: 5px; }
+            
+            .grid { grid-template-columns: 1fr; }
+            header { padding: 20px 5vw; }
+            .logo-group { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="boot-screen">
+        <div class="boot-logo">SI-C</div>
+    </div>
+
+    <audio id="bgm" loop><source src="bgm.mp3" type="audio/mpeg"></audio>
+
+    <div class="overlay vignette"></div>
+    <div class="overlay scanlines"></div>
+    
+    <div class="bg-container">
+        <video class="bg-video" autoplay loop muted playsinline>
+            <source src="background.webm" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="logo-group">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            GENESIS <span class="status-tag">REV. FEB 2026</span>
+        </div>
+        <button class="music-toggle" id="music-btn" onclick="handleMusic()">AUDIO : OFF</button>
+    </header>
+
+    <main class="main-frame">
+        <section class="hero">
+            <div class="hero-title">
+                <h1>SI-C</h1>
+                <br>
+                <p class="glitch-sub">HYBRID INTELLIGENCE</p>
+            </div>
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/5OLs1GWB4OA?autoplay=1&mute=1&controls=0&modestbranding=1" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <div class="grid">
+            <article class="card">
+                <span class="card-label">INFO</span>
+                <div class="card-content">
+                    [ SYSTEM_LOG ]<br>
+                    > INITIALIZING... DONE<br>
+                    > DATA_SYNC... ACTIVE<br>
+                    > LOCATION: UNDISCLOSED<br><br>
+                    ing...
+                </div>
+            </article>
+
+            <article class="card">
+                <span class="card-label">DATA</span>
+                <div class="card-content">
+                    <a href="01.pdf" target="_blank" class="file-link"><span>[01]</span> NEURAL_NET.PDF</a>
+                    <a href="02.pdf" target="_blank" class="file-link"><span>[02]</span> SYNTH_ARCH.PDF</a>
+                    <a href="03.pdf" target="_blank" class="file-link"><span>[03]</span> CORE_DUMP.PDF</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <span class="card-label">LINK</span>
+                <div class="card-content">
+                    <p style="color: #fff; margin-bottom: 10px;">
+                    <code style="display: block; background: #111; padding: 10px; border: 1px dashed #444; text-align: center;">SI-C@MAIL.COM</code>
+                    <button class="action-btn" id="copy-btn" onclick="copyToClipboard('si-c@mail.com')">
+                        CLICK TO COPY
+                    </button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        // 核心修复：强制解锁动画
+        function startSystem() {
+            const boot = document.getElementById('boot-screen');
+            // 设置一个硬性的 3.5 秒延迟，无论背景资源是否加载完成，都强制进入
+            setTimeout(() => {
+                boot.style.opacity = '0';
+                setTimeout(() => {
+                    boot.style.display = 'none';
+                }, 1000);
+            }, 3000); 
+        }
+
+        // 使用 DOMContentLoaded 替代 onload，提升移动端响应速度
+        document.addEventListener('DOMContentLoaded', startSystem);
+
+        const audio = document.getElementById('bgm');
+        const btn = document.getElementById('music-btn');
+        function handleMusic() {
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "AUDIO: ON";
+                btn.style.background = "#fff";
+                btn.style.color = "#000";
+            } else {
+                audio.pause();
+                btn.innerText = "AUDIO: OFF";
+                btn.style.background = "transparent";
+                btn.style.color = "#fff";
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const copyBtn = document.getElementById('copy-btn');
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "COPIED";
+                setTimeout(() => { copyBtn.innerText = originalText; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
