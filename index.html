@@ -182,30 +182,32 @@
         /* 移动端适配修正 */
         @media (max-width: 950px) {
             body { zoom: 1; -moz-transform: none; }
-                .terminal-content {
-                justify-content: flex-end; /* 保持文字从下往上排 */
-                padding-bottom: 10px;      /* 通过增加底部内边距，把文字整体向上“顶” */
-                padding-top: 0;            /* 确保顶部没有多余空间 */
+            .terminal-content {
+                justify-content: flex-end; 
+                padding-bottom: 10px;      
+                padding-top: 0;            
             }
             
-            /* 1. 太阳组件与光圈调整 (纯白色、0.3倍大小、亮度1.8、速度翻倍) */18:53 2026/2/28
+            /* 1. 太阳组件优化 (亮度提升至 2.0，边缘锐化) */
             .holographic-sun { 
-                width: 330px; height: 330px; /* 1100px * 0.3 */
+                width: 330px; height: 330px; 
                 top: -80px; left: -80px; 
-                filter: blur(25px) brightness(2.2); /* 调整为 1.8 亮度 */
-                animation: sun-move-mobile 20s linear infinite alternate; /* 速度翻倍 */
+                /* 降低 blur 使边缘更清晰，增加亮度至 2.0 */
+                filter: blur(15px) brightness(2.0); 
+                animation: sun-move-mobile 20s linear infinite alternate; 
             }
             .sun-core { 
-                width: 60px; height: 60px; /* 200px * 0.3 */
+                width: 60px; height: 60px; 
                 background: #ffffff;
-                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 45px 15px rgba(255,255,255,0.8); 
+                /* 增强发光饱和度 */
+                box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 45px 15px rgba(255,255,255,0.9); 
             }
             .sun-halo { 
-                width: 300px; height: 300px; /* 1000px * 0.3 */
-                /* 彻底去除黄色，改为纯白发光 */
-                box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.9), 0 0 20px 10px rgba(255, 255, 255, 0.4); 
-                background: radial-gradient(circle, transparent 66%, rgba(255, 255, 255, 0.25) 70%, transparent 80%);
-                filter: blur(1px);
+                width: 300px; height: 300px; 
+                /* 移除杂色，强化白色边缘对比度 */
+                box-shadow: 0 0 15px 8px rgba(255, 255, 255, 1), 0 0 30px 15px rgba(255, 255, 255, 0.5); 
+                background: radial-gradient(circle, transparent 62%, rgba(255, 255, 255, 0.35) 70%, transparent 80%);
+                filter: blur(0.8px);
             }
             
             @keyframes sun-move-mobile { 
@@ -213,7 +215,6 @@
                 100% { transform: translate(50vw, 15vh); } 
             }
 
-            /* 2. 导航栏进一步缩小 */
             nav.top-bar { height: 50px; }
             .floating-ui-left { top: 7px; left: 12px; gap: 6px; height: 36px; }
             .floating-ui-left svg { width: 12px; height: 12px; }
@@ -229,10 +230,9 @@
             .glitch-sub { font-size: 0.7rem; letter-spacing: 6px; }
             .grid { grid-template-columns: 1fr; gap: 20px; }
 
-            /* 3. 手机端文字下移，框位置不动 */
             .terminal-content {
-                justify-content: flex-end; /* 改为从上往下排 */
-                padding-top: -100px;          /* 通过内边距将文字整体往下拉 */
+                justify-content: flex-end;
+                padding-top: -100px; 
             }
         }
     </style>
@@ -342,10 +342,8 @@
         function updateTimestamp() { const now = new Date(); document.getElementById('timestamp').innerText = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0') + ":" + now.getSeconds().toString().padStart(2,'0'); }
         function startSystem() { const boot = document.getElementById('boot-screen'); initParticles(); drawParticles(); initCircuit(); drawCircuit(); typeCode(); setInterval(updateTimestamp, 1000); setTimeout(() => { if(boot) { boot.style.opacity = '0'; setTimeout(() => { boot.style.display = 'none'; }, 1000); } }, 2500); }
         
-        // 修正背景随下拉“跑位”的逻辑
         let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => { 
-            // 只有当宽度变化（转屏）时才重新初始化背景，忽略下拉导致的高度变化
             if (window.innerWidth !== lastWidth) {
                 initParticles(); 
                 initCircuit(); 
@@ -360,4 +358,3 @@
     </script>
 </body>
 </html>
-
