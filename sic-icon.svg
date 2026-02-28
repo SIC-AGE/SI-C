@@ -8,7 +8,7 @@
     y="60.5" 
     font-family="'Arial Black', 'Impact', 'Helvetica Neue', Arial, sans-serif" 
     font-weight="900" 
-    font-size="95" 
+    font-size="90" 
     fill="#FFFFFF" 
     text-anchor="middle" 
     dominant-baseline="middle"
@@ -16,4 +16,5 @@
     S
   </text>
 </svg>
+
 
